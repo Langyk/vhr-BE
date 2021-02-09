@@ -1,7 +1,10 @@
 package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.Hr;
+import com.simon.vhr.bean.Role;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface HrMapper {
@@ -18,4 +21,6 @@ public interface HrMapper {
     int updateByPrimaryKey(Hr record);
 
     Hr loadUserByUsername(String username);
+
+    List<Role> getHrRolesById(Integer id);
 }
