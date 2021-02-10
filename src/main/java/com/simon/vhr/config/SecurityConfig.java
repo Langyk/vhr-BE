@@ -50,23 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(hrService);
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/login");
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
 //                .anyRequest().authenticated()
-//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-//
-//                    @Override
-//                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-//                        object.setAccessDecisionManager(customUrlDecisionManager);
-//                        object.setSecurityMetadataSource(customInvocationSecurityMetadataSource);
-//                        return object;
-//                    }
-//                })
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O object) {
@@ -86,11 +79,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
                         resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out=resp.getWriter();
-                        Hr hr= (Hr) authentication.getPrincipal();//获取Hr中的信息
+                        PrintWriter out = resp.getWriter();
+                        Hr hr = (Hr) authentication.getPrincipal();//获取Hr中的信息
                         hr.setPassword(null);//返回时不返回密码
-                        RespBean ok=RespBean.ok("登录成功",hr);
-                        String s=new ObjectMapper().writeValueAsString(ok);//转化成字符串对象
+                        RespBean ok = RespBean.ok("登录成功", hr);
+                        String s = new ObjectMapper().writeValueAsString(ok);//转化成字符串对象
                         out.write(s);
                         out.flush();
                         out.close();
@@ -101,17 +94,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException, ServletException {
                         resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out=resp.getWriter();
-                        RespBean respBean=RespBean.error("登录失败！");
-                        if(exception instanceof LockedException){
+                        PrintWriter out = resp.getWriter();
+                        RespBean respBean = RespBean.error("登录失败！");
+                        if (exception instanceof LockedException) {
                             respBean.setMsg("账户被锁定，请联系管理员");
-                        }else if (exception instanceof CredentialsExpiredException){
+                        } else if (exception instanceof CredentialsExpiredException) {
                             respBean.setMsg("密码过期，请联系管理员");
-                        }else if(exception instanceof AccountExpiredException){
+                        } else if (exception instanceof AccountExpiredException) {
                             respBean.setMsg("账户过期，请联系管理员");
-                        }else if(exception instanceof DisabledException){
+                        } else if (exception instanceof DisabledException) {
                             respBean.setMsg("账户被禁用，请联系管理员");
-                        }else if(exception instanceof BadCredentialsException){
+                        } else if (exception instanceof BadCredentialsException) {
                             respBean.setMsg("用户名或者密码输入错误，请重新输入");
                         }
                         //ObjectMapper是Jackson提供的一个类，作用是将java对象与json格式相互转化
@@ -127,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
                         resp.setContentType("application/json;charset=utf-8");
-                        PrintWriter out=resp.getWriter();
+                        PrintWriter out = resp.getWriter();
                         out.write(new ObjectMapper().writeValueAsString("注销成功！"));
                         out.flush();
                         out.close();
@@ -135,6 +128,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .permitAll()
                 .and()
-                .csrf().disable();
+                .csrf().disable().exceptionHandling()
+                //没有认证时，在这里处理结果，不要重定向
+                .authenticationEntryPoint((req, resp, authException) -> {
+                            resp.setContentType("application/json;charset=utf-8");
+//                            resp.setStatus(401);
+                            PrintWriter out = resp.getWriter();
+                            RespBean respBean = RespBean.error("访问失败!");
+                            if (authException instanceof InsufficientAuthenticationException) {
+                                respBean.setMsg("请求失败，请联系管理员!");
+                            }
+                            out.write(new ObjectMapper().writeValueAsString(respBean));
+                            out.flush();
+                            out.close();
+                        }
+                );
+
+                }
     }
-}
