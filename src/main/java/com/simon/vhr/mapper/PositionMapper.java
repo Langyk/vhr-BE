@@ -2,6 +2,7 @@ package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.Position;
 import com.simon.vhr.bean.RespBean;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface PositionMapper {
     List<Position> getAllPositions();
 
 
+    Integer deletePositionByIds(@Param("ids") Integer[] ids);
 }
