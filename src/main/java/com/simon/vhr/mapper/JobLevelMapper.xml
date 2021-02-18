@@ -11,6 +11,12 @@
   <sql id="Base_Column_List" >
     id, name, titleLevel, createDate, enabled
   </sql>
+  <delete id="deleteJobLevelsByIds">
+    delete from joblevel where id in
+    <foreach collection="ids" item="id" close=")" open="(" separator=",">
+    #{id}
+    </foreach>
+  </delete>
   <select id="getAllJobLevels" resultMap="BaseResultMap">
     select * from joblevel;
   </select>

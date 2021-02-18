@@ -1,6 +1,7 @@
 package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.JobLevel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface JobLevelMapper {
     int updateByPrimaryKey(JobLevel record);
 
     List<JobLevel> getAllJobLevels();
+
+    Integer deleteJobLevelsByIds(@Param("ids") Integer[] ids);
+
 }
