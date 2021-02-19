@@ -1,7 +1,11 @@
 package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.Role;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> getAllRoles();
 }
