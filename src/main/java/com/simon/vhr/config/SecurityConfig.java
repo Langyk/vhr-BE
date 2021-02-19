@@ -132,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //没有认证时，在这里处理结果，不要重定向
                 .authenticationEntryPoint((req, resp, authException) -> {
                             resp.setContentType("application/json;charset=utf-8");
-//                            resp.setStatus(401);
+                            resp.setStatus(401);
                             PrintWriter out = resp.getWriter();
                             RespBean respBean = RespBean.error("访问失败!");
                             if (authException instanceof InsufficientAuthenticationException) {
