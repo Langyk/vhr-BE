@@ -2,6 +2,7 @@ package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.Hr;
 import com.simon.vhr.bean.Role;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,5 +25,5 @@ public interface HrMapper {
 
     List<Role> getHrRolesById(Integer id);
 
-    List<Hr> getAllHrs(Integer hrid);
+    List<Hr> getAllHrs(@Param("hrid") Integer hrid, @Param("keywords") String keywords);
 }
