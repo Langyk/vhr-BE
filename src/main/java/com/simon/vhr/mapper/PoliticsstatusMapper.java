@@ -1,7 +1,11 @@
 package com.simon.vhr.mapper;
 
 import com.simon.vhr.bean.Politicsstatus;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public interface PoliticsstatusMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface PoliticsstatusMapper {
     int updateByPrimaryKeySelective(Politicsstatus record);
 
     int updateByPrimaryKey(Politicsstatus record);
+
+    List<Politicsstatus> getAllPoliticsstatus();
 }

@@ -1,5 +1,7 @@
 package com.simon.vhr.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Employee {
@@ -8,7 +10,7 @@ public class Employee {
     private String name;
 
     private String gender;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date birthday;
 
     private String idCard;
@@ -40,7 +42,7 @@ public class Employee {
     private String specialty;
 
     private String school;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date beginDate;
 
     private String workState;
@@ -48,13 +50,13 @@ public class Employee {
     private String workID;
 
     private Double contractTerm;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date conversionTime;
-
-    private Date notworkDate;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    private Date notWorkDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date beginContract;
-
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date endContract;
 
     private Integer workAge;
@@ -297,12 +299,12 @@ public class Employee {
         this.conversionTime = conversionTime;
     }
 
-    public Date getNotworkDate() {
-        return notworkDate;
+    public Date getNotWorkDate() {
+        return notWorkDate;
     }
 
-    public void setNotworkDate(Date notworkDate) {
-        this.notworkDate = notworkDate;
+    public void setNotWorkDate(Date notWorkDate) {
+        this.notWorkDate = notWorkDate;
     }
 
     public Date getBeginContract() {

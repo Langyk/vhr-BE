@@ -20,7 +20,9 @@ public interface EmployeeMapper {
 
     int updateByPrimaryKey(Employee record);
 
-    List<Employee> getEmployeeByPage(@Param("page") Integer page, @Param("size") Integer size);
+    List<Employee> getEmployeeByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("keyword") String keyword);
 
-    Long getTotal();
+    Long getTotal(String keyword);
+
+    Integer maxWorkID();
 }
