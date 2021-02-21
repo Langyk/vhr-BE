@@ -47,6 +47,9 @@ public class MenuService {
     public boolean updateMenuRole(Integer rid, Integer[] mids) {
         //先删除，后添加
         menuRoleMapper.deleteByRid(rid);
+        if(mids==null || mids.length==0){
+            return true;
+        }
        Integer result= menuRoleMapper.insertRecord(rid,mids);
         return result==mids.length;
     }
