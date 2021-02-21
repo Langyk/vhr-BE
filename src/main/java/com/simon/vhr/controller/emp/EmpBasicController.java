@@ -2,7 +2,9 @@ package com.simon.vhr.controller.emp;
 
 import com.simon.vhr.bean.*;
 import com.simon.vhr.service.*;
+import com.simon.vhr.utils.POIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -95,12 +97,13 @@ public class EmpBasicController {
     public List<Department> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
-//
-//    @GetMapping("/export")
-//    public ResponseEntity<byte[]> exportData() {
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportData() {
 //        List<Employee> list = (List<Employee>) employeeService.getEmployeeByPage(null, null, new Employee(),null).getData();
-//        return POIUtils.employee2Excel(list);
-//    }
+        List<Employee> list = (List<Employee>) employeeService.getEmployeeByPage(null, null,null).getData();
+        return POIUtils.employee2Excel(list);
+    }
 //
 //    @PostMapping("/import")
 //    public RespBean importData(MultipartFile file) throws IOException {
